@@ -1,4 +1,4 @@
-[![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/pdf/2603.07119)
+[![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2603.07119)
 [![Demo](https://img.shields.io/badge/Demo-blue?style=flat-square)](demo/)
 
 # TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
