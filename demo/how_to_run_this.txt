@@ -1,0 +1,5 @@
+1. Obtain scores:
+$ python3 antiqa_infer.py --gpu 0 --antiqa_ckpt antiqa.ckpt --input demo/imgs --out_path demo/out.tsv
+
+2. Obtain visualizations:
+$ python3 codebase/visualizer.py --results demo/out.tsv --out_dir demo/vis 
