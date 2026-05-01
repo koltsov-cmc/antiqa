@@ -1,7 +1,7 @@
 [![Paper](https://img.shields.io/badge/Paper-red?style=flat-square)]()
 [![Demo](https://img.shields.io/badge/Demo-blue?style=flat-square)](demo/)
 
-# TIQA: HUMAN-ALIGNED PERCEPTUAL TEXT QUALITY ASSESSMENT IN GENERATED IMAGES
+# TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
 
 **Abstract**
 
