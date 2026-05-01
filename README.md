@@ -2,7 +2,7 @@
 [![Demo](https://img.shields.io/badge/Demo-blue?style=flat-square)](demo/)
 
 # TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
-*Kirill Koltsov, Aleksandr Gushchin, Dmitriy Vatolin, Anastasia Antsiferova* \\
+*Kirill Koltsov, Aleksandr Gushchin, Dmitriy Vatolin, Anastasia Antsiferova* \
 
 **Abstract**
 
