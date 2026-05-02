@@ -3,6 +3,7 @@
 
 # TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
 *Kirill Koltsov, Aleksandr Gushchin, Dmitriy Vatolin, Anastasia Antsiferova* 
+**TD;DR** A small model that takes horizontal text crops as input and produces scores for their visual quality in terms of generative artifacts on a scale from 0 to 5
 
 **Abstract**
 
@@ -11,6 +12,11 @@ Recent text-to-image models have improved global realism, but text rendering rem
 ![Example](example.png)
 
 ---
+
+## TODO:
+- [x] Release inference code
+- [ ] Release training code
+- [ ] Release datasets
 
 ## Setup
 
