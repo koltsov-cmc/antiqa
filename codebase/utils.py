@@ -419,3 +419,99 @@ def save_crops_from_folder(in_folder, out_folder, det_model, ocr_model, batch_si
         print(f"processed batch {i+1} out of {len(batches)}")
 
         save_crops_and_texts(crops_dict, out_folder)
+
+
+import numpy as np
+import torch
+
+
+def _to_1d_numpy(x):
+    if torch.is_tensor(x):
+        x = x.detach().cpu().float().reshape(-1).numpy()
+    else:
+        x = np.asarray(x, dtype=np.float64).reshape(-1)
+    return x
+
+
+def _pearson_corr(x, y):
+    x = x.astype(np.float64)
+    y = y.astype(np.float64)
+
+    mask = np.isfinite(x) & np.isfinite(y)
+    x = x[mask]
+    y = y[mask]
+
+    if x.size < 2:
+        return float("nan")
+
+    x = x - x.mean()
+    y = y - y.mean()
+
+    denom = np.sqrt((x * x).sum() * (y * y).sum())
+    if denom == 0:
+        return float("nan")
+
+    return float((x * y).sum() / denom)
+
+
+def _rankdata_avg(a):
+    """
+    Average ranks for ties, 1-based ranks.
+    Equivalent to scipy.stats.rankdata(method="average"), but without scipy.
+    """
+    a = np.asarray(a)
+    sorter = np.argsort(a, kind="mergesort")
+    inv = np.empty_like(sorter)
+    inv[sorter] = np.arange(len(a))
+
+    sorted_a = a[sorter]
+    ranks = np.empty(len(a), dtype=np.float64)
+
+    i = 0
+    while i < len(sorted_a):
+        j = i + 1
+        while j < len(sorted_a) and sorted_a[j] == sorted_a[i]:
+            j += 1
+        avg_rank = 0.5 * (i + j - 1) + 1.0  # 1-based average rank
+        ranks[i:j] = avg_rank
+        i = j
+
+    return ranks[inv]
+
+
+def _spearman_corr(x, y):
+    x = x.astype(np.float64)
+    y = y.astype(np.float64)
+
+    mask = np.isfinite(x) & np.isfinite(y)
+    x = x[mask]
+    y = y[mask]
+
+    if x.size < 2:
+        return float("nan")
+
+    rx = _rankdata_avg(x)
+    ry = _rankdata_avg(y)
+    return _pearson_corr(rx, ry)
+
+
+def correlations(targets, preds):
+    """
+    targets, preds: torch.Tensor / np.ndarray / list
+    Returns:
+        {
+            "pearson": float,
+            "spearman": float,
+        }
+    """
+    t = _to_1d_numpy(targets)
+    p = _to_1d_numpy(preds)
+
+    n = min(len(t), len(p))
+    t = t[:n]
+    p = p[:n]
+
+    return {
+        "pearson": _pearson_corr(t, p),
+        "spearman": _spearman_corr(t, p),
+    }

@@ -5,6 +5,7 @@ from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint, Learning
 from pytorch_lightning.strategies import DDPStrategy
 from lightning.pytorch.loggers import TensorBoardLogger
 import gc, torch
+from utils import correlations
 
 class PLCCLoss(nn.Module):
     def __init__(self):

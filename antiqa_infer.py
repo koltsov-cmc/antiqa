@@ -36,11 +36,9 @@ import torch
 
 from paddleocr import TextDetection
 
-# Project-local imports — these must be importable from the script's working dir.
-from codebase.antiqa import ANTIQA                                # the trained checkpoint class
-from codebase.dataloader_and_aug import Sobel                     # fixed Sobel operator
-# Geometry / cropping helpers already defined in the project.
-from codebase.utils import (  # noqa: F401
+from codebase.antiqa import ANTIQA
+from codebase.dataloader_and_aug import Sobel
+from codebase.utils import (
     crop_and_make_horizontal,
     read_img_names_from_folder,
 )
@@ -79,7 +77,7 @@ def antiqa_score_single(model: torch.nn.Module,
 #                          PaddleOCR + ANTIQA pipeline                        #
 # --------------------------------------------------------------------------- #
 
-# Upper bound on the number of detected regions we keep per image.
+# Upper bound on the number of detected crops per image.
 MAX_NUM_CROPS: int = 50
 # Upscale factor applied during perspective rectification.
 FIRST_SCALE: float = 1.9
