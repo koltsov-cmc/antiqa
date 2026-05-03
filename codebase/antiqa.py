@@ -16,7 +16,7 @@ class PLCCLoss(nn.Module):
         self.loss = torch.sum(input0 * target0) / (torch.sqrt(torch.sum(input0 ** 2)) * torch.sqrt(torch.sum(target0 ** 2)))
         return self.loss
     
-class DownConvGN(nn.Module):
+class DownScale(nn.Module):
     """Strided conv (stride=2) for downsampling + GN + ReLU."""
     def __init__(self, in_ch, out_ch):
         super().__init__()
@@ -280,7 +280,7 @@ class BaseTextQualityModel(pl.LightningModule):
 
         return [optimizer], [lr_scheduler_config]
 
-class ResConvBlockGN(nn.Module):
+class ConvB(nn.Module):
     """
     Residual block: Conv-GN-ReLU-Conv-GN (+ optional Dropout2d).
     """
@@ -306,12 +306,10 @@ class ResConvBlockGN(nn.Module):
 class ANTIQA(BaseTextQualityModel):
     def __init__(
         self,
-        in_ch: int = 1,
-        use_ocr: bool = False,
+        in_ch: int = 2,
         lr: float = 1e-3,
         dropout: float = 0.2,
-        grid_size: int = 2,   # <--- NEW: size of pooling grid (1 = global)
-        scheduler_step=5, scheduler_gamma=0.1,
+        grid_size: int = 2,
     ):
         super().__init__(lr=lr)
         self.save_hyperparameters()
@@ -327,22 +325,22 @@ class ANTIQA(BaseTextQualityModel):
         # --- Stages: 64 -> 128 -> 256 ---
         # Stage 1: 64
         self.stage1 = nn.Sequential(
-            ResConvBlockGN(64, p_drop=dropout * 0.5),
-            ResConvBlockGN(64, p_drop=dropout * 0.5),
+            ConvB(64, p_drop=dropout * 0.5),
+            ConvB(64, p_drop=dropout * 0.5),
         )
-        self.down1 = DownConvGN(64, 128)
+        self.down1 = DownScale(64, 128)
 
         # Stage 2: 128
         self.stage2 = nn.Sequential(
-            ResConvBlockGN(128, p_drop=dropout * 0.5),
-            ResConvBlockGN(128, p_drop=dropout * 0.5),
+            ConvB(128, p_drop=dropout * 0.5),
+            ConvB(128, p_drop=dropout * 0.5),
         )
-        self.down2 = DownConvGN(128, 256)
+        self.down2 = DownScale(128, 256)
 
         # Stage 3: 256
         self.stage3 = nn.Sequential(
-            ResConvBlockGN(256, p_drop=dropout),
-            ResConvBlockGN(256, p_drop=dropout),
+            ConvB(256, p_drop=dropout),
+            ConvB(256, p_drop=dropout),
         )
         
         self.se0 = SEBlock(64)
@@ -359,25 +357,6 @@ class ANTIQA(BaseTextQualityModel):
 
         feat_dims = [64, 128, 256]
         self.feat_dims = feat_dims
-
-        cells = grid_size * grid_size          # number of cells per channel
-        # avg + max => factor 2
-        base_feat_dim = sum(c * cells * 2 for c in feat_dims)
-
-        feat_dim = base_feat_dim
-
-        # --- OCR branch ---
-        self.use_ocr = use_ocr
-        if use_ocr:
-            self.ocr_mlp = nn.Sequential(
-                nn.Linear(1, 16),
-                nn.ReLU(inplace=True),
-                nn.Linear(16, 16),
-                nn.ReLU(inplace=True),
-            )
-            feat_dim += 16
-        else:
-            self.ocr_mlp = None
 
         # --- Head ---
         self.head = nn.Sequential(
@@ -408,7 +387,7 @@ class ANTIQA(BaseTextQualityModel):
         x2 = self.stage3(x2)         # B x 256 x H/4 x W/4
         x2 = self.se2(x2)
 
-        # pooling on GxG grid with avg + max
+        # APB
         def pool_avg_max_grid(feat):
             # feat: B x C x H x W
             avg = self.gap(feat)          # B x C x G x G
@@ -423,15 +402,6 @@ class ANTIQA(BaseTextQualityModel):
         f2 = self.scale_proj2(pool_avg_max_grid(x2)) # B x 64
 
         x = torch.cat([f0, f1, f2], dim=1)  # B x 64*3
-
-        # OCR branch
-        if self.use_ocr:
-            if ocr_scores is None:
-                o = torch.zeros(x.size(0), 1, device=x.device, dtype=x.dtype)
-            else:
-                o = ocr_scores.view(-1, 1).to(device=x.device, dtype=x.dtype)
-            o = self.ocr_mlp(o)       # B x 16
-            x = torch.cat([x, o], dim=1)
 
         out = self.head(x)            # B x 1
         return out.view(-1)
