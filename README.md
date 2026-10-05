@@ -1,8 +1,8 @@
 [![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2603.07119)
-<a href="https://huggingface.co/datasets/cmcshnik/TIQA_Text-in-Image_Quality_Assessment">
-  <img src="https://github.com/user-attachments/assets/554c5dba-3c1c-421a-ae04-a8538bf48939" alt="Hugging Face" width="512">
-</a>
+[![HuggingFace](https://img.shields.io/badge/Demo-HuggingFace-yellow)](https://huggingface.co/datasets/cmcshnik/TIQA_Text-in-Image_Quality_Assessment)
 [![Demo](https://img.shields.io/badge/Demo-blue?style=flat-square)](demo/)
+
+https://img.shields.io/badge/Demo-HuggingFace-yellow
 
 # TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
 *Kirill Koltsov, Aleksandr Gushchin, Dmitriy Vatolin, Anastasia Antsiferova* 
