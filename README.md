@@ -1,5 +1,7 @@
 [![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2603.07119)
-[![HuggingFace](<img width="512" height="473" alt="image" src="https://github.com/user-attachments/assets/554c5dba-3c1c-421a-ae04-a8538bf48939" />)]([https://arxiv.org/abs/2603.07119](https://huggingface.co/datasets/cmcshnik/TIQA_Text-in-Image_Quality_Assessment))
+<a href="https://huggingface.co/datasets/cmcshnik/TIQA_Text-in-Image_Quality_Assessment">
+  <img src="https://github.com/user-attachments/assets/554c5dba-3c1c-421a-ae04-a8538bf48939" alt="Hugging Face" width="512">
+</a>
 [![Demo](https://img.shields.io/badge/Demo-blue?style=flat-square)](demo/)
 
 # TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
