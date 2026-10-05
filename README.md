@@ -1,5 +1,5 @@
 [![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2603.07119)
-[![HuggingFace](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2603.07119)
+[![HuggingFace](https://www.google.com/url?sa=t&source=web&rct=j&url=https%3A%2F%2Fuxwing.com%2Fhuggingface-icon%2F&ved=0CBcQjRxqFwoTCMDqyNHLo5cDFQAAAAAdAAAAABAF&opi=89978449)]([https://arxiv.org/abs/2603.07119](https://huggingface.co/datasets/cmcshnik/TIQA_Text-in-Image_Quality_Assessment))
 [![Demo](https://img.shields.io/badge/Demo-blue?style=flat-square)](demo/)
 
 # TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
@@ -10,11 +10,9 @@
 **Abstract**
 
 Recent text-to-image models have improved global realism, but text rendering remains a persistent failure mode: images may look convincing overall, yet local typography often contains malformed glyphs, broken strokes, irregular spacing, and other artifacts that heavily penalize humans. We formulate Text-in-Image Quality Assessment (TIQA), a no-reference task that estimates a human-aligned perceptual quality score for detected text regions while disentangling visual text quality from semantic correctness. To support this setting, we introduce two datasets. TIQA-Crops contains 120k text crops from 36k AI-generated images produced by 12 generators, with 10k mean-opinion-score (MOS) labels and 110k proxy labels for pretraining TIQA-Images contains 1,500 text-heavy images from 10 recent generators, including proprietary systems, with paired overall-quality and text-quality subjective scores. We also propose ANTIQA, a lightweight predictor with text-specific inductive biases. Across crop-level and image-level evaluations, ANTIQA achieves the best alignment with human judgments, reaching PLCC/SROCC of 0.942/0.935 on TIQA-Crops and 0.842/0.837 for text-quality MOS on unseen generators in TIQA-Images. In best-of-5 AI-generated image ranking, ANTIQA improves the text quality of the selected image by 0.36 MOS (14%), demonstrating utility for benchmarking, filtering, and generation-time selection. Together, these findings establish perceptual text quality as a distinct evaluation target for modern text-to-image generation.
-
-<img align="center" width="565" height="471" alt="image" src="https://github.com/user-attachments/assets/f69b88d9-4ce2-4d4f-b721-62b746c44ffe" />
-
-
-![Example](example.png)
+<p align="center">
+    <img align="center" width="565" height="471" alt="image" src="https://github.com/user-attachments/assets/f69b88d9-4ce2-4d4f-b721-62b746c44ffe" />
+<p>
 
 ---
 
