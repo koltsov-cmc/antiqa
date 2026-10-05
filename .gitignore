@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Datasets (published on Hugging Face)
+*.tar.gz
+*.zip
+
+# Local outputs
+results*.tsv
+pairs*.png
+vis_output/
+
+# Local tooling
+.claude/

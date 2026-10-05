@@ -186,7 +186,8 @@ def parse_args() -> argparse.Namespace:
         description="Run ANTIQA over PaddleOCR-detected crops without saving them."
     )
     p.add_argument("--gpu", type=str, required=True,
-                   help="GPU index passed to both PaddleOCR (gpu:N) and PyTorch (cuda:N).")
+                   help="GPU index for PyTorch/ANTIQA (cuda:N). PaddleOCR detection "
+                        "runs on CPU.")
     p.add_argument("--antiqa_ckpt", type=str, required=True,
                    help="Path to the ANTIQA Lightning checkpoint.")
     p.add_argument("--paddle_det_ckpt", type=str, default=None,
@@ -200,7 +201,9 @@ def parse_args() -> argparse.Namespace:
 
 
 def build_paddle_detector(gpu: str, det_ckpt: Optional[str]) -> TextDetection:
-    device = f"gpu:{gpu}"
+    # PaddlePaddle is installed as the CPU build to avoid a hard CUDA-wheel
+    # conflict with torch (see environment.yml), so the detector runs on CPU.
+    device = "cpu"
     det_kwargs = {"model_name": "PP-OCRv5_server_det", "device": device}
     if det_ckpt:
         det_kwargs["model_dir"] = det_ckpt
