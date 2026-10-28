@@ -1,5 +1,5 @@
 [![arXiv](https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg)](https://arxiv.org/abs/2603.07119)
-[![HuggingFace](https://img.shields.io/badge/Demo-HuggingFace-yellow)](https://huggingface.co/datasets/cmcshnik/TIQA_Text-in-Image_Quality_Assessment)
+[![HuggingFace](https://img.shields.io/badge/Demo-HuggingFace-yellow)](https://huggingface.co/datasets/deepfakesMSU/TIQA_crops_and_images)
 [![Demo](https://img.shields.io/badge/Demo-blue?style=flat-square)](demo/)
 
 # TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images
